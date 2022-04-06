@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { RadarService } from '../radar.service';
 
 @Component({
@@ -8,10 +8,13 @@ import { RadarService } from '../radar.service';
 })
 export class ViewComponent implements OnInit {
 
-  constructor(private radarService: RadarService) { }
+
+  constructor(private radarService: RadarService) {
+
+   }
 
   ngOnInit() {
-    console.log(this.radarService.getRadarDate())
+
   }
 
 }

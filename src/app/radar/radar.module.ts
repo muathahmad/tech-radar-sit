@@ -8,11 +8,14 @@ import { ViewComponent } from './view/view.component';
 import { DetailsComponent } from './details/details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RadarService } from './radar.service';
+import { AdminModule } from '../admin/admin.module';
+
 
 @NgModule({
   imports: [
     CommonModule,
     NgTechRadarModule,
+    AdminModule,
     HttpClientModule,
     RouterModule.forChild([
       { path: '', component: ViewComponent },

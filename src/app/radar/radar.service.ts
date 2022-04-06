@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EntiresInterface, RadarMapDetails } from 'projects/ng-tech-radar/src/radar-map-detials';
+import { EntiresInterface } from 'projects/ng-tech-radar/src/radar-map-detials';
 import { Observable } from 'rxjs';
 
 @Injectable(

@@ -9,7 +9,6 @@ import { NgTechRadarModule } from 'projects/ng-tech-radar/src/public-api';
 import { RadarService } from './radar/radar.service';
 
 
-
 @NgModule({
   declarations: [
     AppComponent
@@ -20,7 +19,8 @@ import { RadarService } from './radar/radar.service';
     RadarModule,
     NgTechRadarModule,
     RouterModule.forRoot([
-      { path: '', loadChildren: () => import("./radar/radar.module").then(m => m.RadarModule) }
+      { path: '', loadChildren: () => import("./radar/radar.module").then(m => m.RadarModule) },
+      { path:'admin', loadChildren:() => import('./admin/admin.module').then(m=> m.AdminModule)}
     ])
   ],
   providers: [RadarService],

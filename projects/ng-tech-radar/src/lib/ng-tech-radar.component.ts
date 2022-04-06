@@ -31,7 +31,7 @@ export class NgTechRadarComponent implements OnInit {
 
 
   renderFunc(data: EntiresInterface[]) {
-    console.log({ data });
+
     radar_visualization(
       {
         svg_id: 'radar',
