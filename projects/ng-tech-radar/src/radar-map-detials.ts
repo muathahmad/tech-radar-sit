@@ -1,5 +1,3 @@
-import { AUTO_STYLE } from "@angular/animations";
-
 export interface RadarMapDetails {
   title: string,
   width: number,
