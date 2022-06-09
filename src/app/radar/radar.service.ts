@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EntiresInterface } from 'projects/ng-tech-radar/src/radar-map-detials';
+import { IEntry } from '../../../projects/ng-tech-radar/src/lib/helper/interface';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { importType } from '@angular/compiler/src/output/output_ast';
 
 @Injectable(
   { providedIn: 'root' }
@@ -9,11 +11,14 @@ import { Observable } from 'rxjs';
 export class RadarService {
 
   constructor(private http: HttpClient) { }
-
-  getRadarDate(): Observable<EntiresInterface[]> {
-    let url = 'https://run.mocky.io/v3/94c164ae-4676-456c-b8c1-0ac4a4fa1c4c';
-    return this.http.get<EntiresInterface[]>(url);
-
+/**
+ *
+ *
+ * @return {*}  {Observable<IEntry[]>}
+ * @memberof RadarService
+ */
+getRadarDate(): Observable<IEntry[]> {
+    return this.http.get<IEntry[]>(`${environment.baseURL+'Prod/radar/entry'}`);
   };
 
 }

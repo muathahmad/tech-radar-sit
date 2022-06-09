@@ -1,68 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { radar_visualization } from './helper/radar';
-import { EntiresInterface, RadarMapDetails, radarMaps } from '../radar-map-detials';
-import { RadarService } from 'src/app/radar/radar.service';
-
-
-
+import { IEntry, RadarMapDetails } from './helper/interface';
+import { radarMaps } from './helper/fallback';
 
 @Component({
   selector: 'lib-ng-tech-radar',
   templateUrl: 'ng-tech-radar.component.html',
-  styles: [
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgTechRadarComponent implements OnInit {
+export class NgTechRadarComponent implements  OnChanges {
+  @Input() techEnteries: Array<IEntry> = [];
+  @Input() techConfig: RadarMapDetails = radarMaps;
 
-  constructor(private radarService: RadarService) {
+  //  ToDo Read more about ViewChild
+  @ViewChild("Radar") Radar: any;
 
-    this.radarService.getRadarDate()
+  _config!: RadarMapDetails;
+  constructor( private ref: ChangeDetectorRef) {
   }
 
-  getarrData() {
-    return this.radarService.getRadarDate()
+  ngOnChanges(changes: SimpleChanges): void {
+    this.renderFunc();
   }
 
-  ngOnInit(): void {
-    this.radarService.getRadarDate().subscribe((data: EntiresInterface[]) => {
-      this.renderFunc(data)
-    });
-  }
-
-
-  renderFunc(data: EntiresInterface[]) {
-
-    radar_visualization(
-      {
-        svg_id: 'radar',
-        width: radarMaps.width,
-        height: radarMaps.height,
-        colors: {
-          background: radarMaps.colors.background,
-          grid: radarMaps.colors.grid,
-          inactive: radarMaps.colors.inactive
-        },
-        title: radarMaps.title,
-        quadrants: [
-          { name: radarMaps.quadrants[0].name },
-          { name: radarMaps.quadrants[1].name },
-          { name: radarMaps.quadrants[2].name },
-          { name: radarMaps.quadrants[3].name },
-        ],
-        rings: [
-          { name: radarMaps.rings[0].name, color: radarMaps.rings[0].color },
-          { name: radarMaps.rings[1].name, color: radarMaps.rings[1].color },
-          { name: radarMaps.rings[2].name, color: radarMaps.rings[2].color },
-          { name: radarMaps.rings[3].name, color: radarMaps.rings[3].color }
-        ],
-        print_layout: radarMaps.print_layout,
-        // zoomed_quadrant: 0,
-        //ENTRIES
-        entries: data
-
-
-        //ENTRIES
+  renderFunc() {
+    setTimeout(()=>{
+      if(this.Radar){
+        this.Radar.nativeElement.innerHTML = ""
       }
-    );
+
+      radar_visualization(
+        {
+          svg_id: 'radar',
+          ...this.techConfig,
+          entries: this.techEnteries
+        }
+        );
+
+        this.ref.markForCheck();
+      }, 0);
   }
 }

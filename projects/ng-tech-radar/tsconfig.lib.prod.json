@@ -2,7 +2,12 @@
 {
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
-    "declarationMap": false
+    "declarationMap": false,
+    "paths": {
+
+      "@control/interfaces":["projects/ng-tech-radar/src/lib/helper/interface"]
+       
+    }
   },
   "angularCompilerOptions": {
     "compilationMode": "partial"

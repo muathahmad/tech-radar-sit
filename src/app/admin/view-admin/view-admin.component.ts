@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { EntiresInterface } from 'projects/ng-tech-radar/src/radar-map-detials';
+import { IEntry } from 'projects/ng-tech-radar/src/lib/helper/interface';
 import { RadarService } from 'src/app/radar/radar.service';
 
 
@@ -12,7 +12,7 @@ import { RadarService } from 'src/app/radar/radar.service';
 })
 
 export class ViewAdminComponent implements OnInit {
-  ELEMENT_DATA: Array<EntiresInterface> = []
+  ELEMENT_DATA: Array<IEntry> = []
   displayedColumns: string[] = ['quadrant', 'ring', 'label', 'active','action'];
   dataSource: any;
   applyFilter(event: Event) {
