@@ -1,5 +1,7 @@
-<button type="button" routerLink="/login"> Edit </button>
-  <lib-ng-tech-radar  [techConfig]="radarConfig" [techEnteries]="radarEntries"  ></lib-ng-tech-radar>
-
-
-
+<button type="button" routerLink="/login">Edit</button>
+<div *ngIf="isLoaded">
+  <lib-ng-tech-radar
+    [techConfig]="radarConfig"
+    [techEnteries]="radarEntries"
+  ></lib-ng-tech-radar>
+</div>

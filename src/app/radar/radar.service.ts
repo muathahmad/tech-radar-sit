@@ -5,21 +5,12 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { importType } from '@angular/compiler/src/output/output_ast';
 
-@Injectable(
-  { providedIn: 'root' }
-)
+@Injectable({ providedIn: 'root' })
 export class RadarService {
-
-  constructor(private http: HttpClient) { }
-/**
- *
- *
- * @return {*}  {Observable<IEntry[]>}
- * @memberof RadarService
- */
-getRadarDate(): Observable<IEntry[]> {
-    return this.http.get<IEntry[]>(`${environment.baseURL+'Prod/radar/entry'}`);
-  };
-
+  constructor(private http: HttpClient) {}
+  getRadarDate(): Observable<IEntry[]> {
+    return this.http.get<IEntry[]>(
+      `${environment.baseURL + 'Prod/radar/entry'}`
+    );
+  }
 }
-

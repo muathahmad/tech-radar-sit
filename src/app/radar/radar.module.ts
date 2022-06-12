@@ -10,7 +10,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RadarService } from './radar.service';
 import { AdminModule } from '../admin/admin.module';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -19,15 +18,13 @@ import { AdminModule } from '../admin/admin.module';
     HttpClientModule,
     RouterModule.forChild([
       { path: '', component: ViewComponent },
-      { path: 'details', component: DetailsComponent }
-    ])
+      { path: 'details', component: DetailsComponent },
+    ]),
   ],
   declarations: [RadarComponent, ViewComponent, DetailsComponent],
   exports: [ViewComponent],
-  providers: [RadarService]
+  providers: [RadarService],
 })
 export class RadarModule {
-  constructor(private radarService: RadarService) {
-
-  }
+  constructor(private radarService: RadarService) {}
 }
