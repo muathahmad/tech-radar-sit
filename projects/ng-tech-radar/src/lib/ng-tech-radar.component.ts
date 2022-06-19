@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { IEntry, RadarMapDetails } from './helper/interface';
 import { radarMaps } from './helper/fallback';
+import {radar_visualization} from "./helper/radar";
 
 @Component({
   selector: 'lib-ng-tech-radar',
@@ -35,7 +36,7 @@ export class NgTechRadarComponent implements OnChanges {
         this.Radar.nativeElement.innerHTML = '';
       }
 
-      (window as any).radar_visualization({
+      radar_visualization({
         svg_id: 'radar',
         ...this.techConfig,
         entries: this.techEnteries,

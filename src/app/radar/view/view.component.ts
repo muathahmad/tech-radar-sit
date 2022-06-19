@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RadarMapDetails, IEntry } from 'ng-tech-radar';
 import { RadarService } from '../radar.service';
+import {IEntry, RadarMapDetails} from "../../../../projects/ng-tech-radar";
 
 @Component({
   selector: 'app-view',
