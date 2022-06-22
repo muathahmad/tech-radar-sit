@@ -4,14 +4,10 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {IEntry, RadarMapDetails} from './helper/interface';
 import {radarMaps} from './helper/fallback';
-import {radar_visualization} from "./helper/radar";
 
 @Component({
   selector: 'lib-ng-tech-radar',
@@ -34,9 +30,6 @@ export class NgTechRadarComponent implements AfterViewInit {
   }
 
   renderFunc() {
-    if (this.Radar) {
-      this.Radar.nativeElement.innerHTML = '';
-    }
 
     (window as any)?.radar_visualization({
       svg_id: 'radar',
