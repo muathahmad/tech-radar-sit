@@ -2,112 +2,112 @@
 import * as d3 from 'd3';
 
 export function radar_visualization(config) {
-  var seed = 42;
-  function random() {
-    var x = Math.sin(seed++) * 10000;
+  let seed = 42;
+  let random = () => {
+    let x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
   }
 
-  function random_between(min, max) {
+  let random_between = (min, max) => {
     return min + random() * (max - min);
   }
 
-  function normal_between(min, max) {
+  let normal_between = (min, max) => {
     return min + (random() + random()) * 0.5 * (max - min);
   }
 
   const quadrants = [
-    { radial_min: 0, radial_max: 0.5, factor_x: 1, factor_y: 1 },
-    { radial_min: 0.5, radial_max: 1, factor_x: -1, factor_y: 1 },
-    { radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1 },
-    { radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1 },
+    {radial_min: 0, radial_max: 0.5, factor_x: 1, factor_y: 1},
+    {radial_min: 0.5, radial_max: 1, factor_x: -1, factor_y: 1},
+    {radial_min: -1, radial_max: -0.5, factor_x: -1, factor_y: -1},
+    {radial_min: -0.5, radial_max: 0, factor_x: 1, factor_y: -1},
   ];
 
   const rings = [
-    { radius: 130 },
-    { radius: 220 },
-    { radius: 310 },
-    { radius: 400 },
+    {radius: 130},
+    {radius: 220},
+    {radius: 310},
+    {radius: 400},
   ];
 
-  const title_offset = { x: -675, y: -420 };
+  const title_offset = {x: -675, y: -420};
 
-  const footer_offset = { x: -675, y: 420 };
+  const footer_offset = {x: -675, y: 420};
 
   const legend_offset = [
-    { x: 450, y: 90 },
-    { x: -675, y: 90 },
-    { x: -675, y: -310 },
-    { x: 450, y: -310 },
+    {x: 450, y: 90},
+    {x: -675, y: 90},
+    {x: -675, y: -310},
+    {x: 450, y: -310},
   ];
 
-  function polar(cartesian) {
-    var x = cartesian.x;
-    var y = cartesian.y;
+  let polar = (cartesian) => {
+    let x = cartesian.x;
+    let y = cartesian.y;
     return {
       t: Math.atan2(y, x),
       r: Math.sqrt(x * x + y * y),
     };
   }
 
-  function cartesian(polar) {
+  let cartesian = (polar) => {
     return {
       x: polar.r * Math.cos(polar.t),
       y: polar.r * Math.sin(polar.t),
     };
   }
 
-  function bounded_interval(value, min, max) {
-    var low = Math.min(min, max);
-    var high = Math.max(min, max);
+  let bounded_interval = (value, min, max) => {
+    let low = Math.min(min, max);
+    let high = Math.max(min, max);
     return Math.min(Math.max(value, low), high);
   }
 
-  function bounded_ring(polar, r_min, r_max) {
+  let bounded_ring = (polar, r_min, r_max) => {
     return {
       t: polar.t,
       r: bounded_interval(polar.r, r_min, r_max),
     };
   }
 
-  function bounded_box(point, min, max) {
+  let bounded_box = (point, min, max) => {
     return {
       x: bounded_interval(point.x, min.x, max.x),
       y: bounded_interval(point.y, min.y, max.y),
     };
   }
 
-  function segment(quadrant, ring) {
-    var polar_min = {
+  let segment = (quadrant, ring) => {
+    let polar_min = {
       t: quadrants[quadrant].radial_min * Math.PI,
       r: ring === 0 ? 30 : rings[ring - 1].radius,
     };
-    var polar_max = {
+    let polar_max = {
       t: quadrants[quadrant].radial_max * Math.PI,
       r: rings[ring].radius,
     };
-    var cartesian_min = {
+    let cartesian_min = {
       x: 15 * quadrants[quadrant].factor_x,
       y: 15 * quadrants[quadrant].factor_y,
     };
-    var cartesian_max = {
+    let cartesian_max = {
       x: rings[3].radius * quadrants[quadrant].factor_x,
       y: rings[3].radius * quadrants[quadrant].factor_y,
     };
     return {
-      clipx: function (d) {
-        var c = bounded_box(d, cartesian_min, cartesian_max);
-        var p = bounded_ring(polar(c), polar_min.r + 15, polar_max.r - 15);
+      clipx: (d) => {
+        let c = bounded_box(d, cartesian_min, cartesian_max);
+        let p = bounded_ring(polar(c), polar_min.r + 15, polar_max.r - 15);
         d.x = cartesian(p).x; // adjust data too!
         return d.x;
       },
-      clipy: function (d) {
-        var c = bounded_box(d, cartesian_min, cartesian_max);
-        var p = bounded_ring(polar(c), polar_min.r + 15, polar_max.r - 15);
+      clipy: (d) => {
+        let c = bounded_box(d, cartesian_min, cartesian_max);
+        let p = bounded_ring(polar(c), polar_min.r + 15, polar_max.r - 15);
         d.y = cartesian(p).y; // adjust data too!
         return d.y;
       },
-      random: function () {
+      random: () => {
         return cartesian({
           t: random_between(polar_min.t, polar_max.t),
           r: normal_between(polar_min.r, polar_max.r),
@@ -117,10 +117,10 @@ export function radar_visualization(config) {
   }
 
   // position each entry randomly in its segment
-  for (var i = 0; i < config.entries.length; i++) {
-    var entry = config.entries[i];
+  for (let i = 0; i < config.entries.length; i++) {
+    let entry = config.entries[i];
     entry.segment = segment(entry.quadrant, entry.ring);
-    var point = entry.segment.random();
+    let point = entry.segment.random();
     entry.x = point.x;
     entry.y = point.y;
     entry.color =
@@ -130,37 +130,37 @@ export function radar_visualization(config) {
   }
 
   // partition entries according to segments
-  var segmented = new Array(4);
-  for (var quadrant = 0; quadrant < 4; quadrant++) {
+  let segmented = new Array(4);
+  for (let quadrant = 0; quadrant < 4; quadrant++) {
     segmented[quadrant] = new Array(4);
-    for (var ring = 0; ring < 4; ring++) {
+    for (let ring = 0; ring < 4; ring++) {
       segmented[quadrant][ring] = [];
     }
   }
-  for (var i = 0; i < config.entries.length; i++) {
-    var entry = config.entries[i];
+  for (let i = 0; i < config.entries.length; i++) {
+    let entry = config.entries[i];
     segmented[entry.quadrant][entry.ring].push(entry);
   }
 
   // assign unique sequential id to each entry
-  var id = 1;
-  for (var quadrant of [2, 3, 1, 0]) {
-    for (var ring = 0; ring < 4; ring++) {
-      var entries = segmented[quadrant][ring];
-      entries.sort(function (a, b) {
+  let id = 1;
+  for (let quadrant of [2, 3, 1, 0]) {
+    for (let ring = 0; ring < 4; ring++) {
+      let entries = segmented[quadrant][ring];
+      entries.sort((a, b) => {
         return a.label.localeCompare(b.label);
       });
-      for (var i = 0; i < entries.length; i++) {
+      for (let i = 0; i < entries.length; i++) {
         entries[i].id = '' + id++;
       }
     }
   }
 
-  function translate(x, y) {
+  let translate = (x, y) => {
     return 'translate(' + x + ',' + y + ')';
   }
 
-  function viewbox(quadrant) {
+  let viewbox = (quadrant) => {
     return [
       Math.max(0, quadrants[quadrant].factor_x * 400) - 420,
       Math.max(0, quadrants[quadrant].factor_y * 400) - 420,
@@ -169,20 +169,20 @@ export function radar_visualization(config) {
     ].join(' ');
   }
 
-  var svg = d3
+  let svg = d3
     .select('svg#' + config.svg_id)
     .style('background-color', config.colors.background)
     .attr('width', config.width)
     .attr('height', config.height);
 
-  var radar = svg.append('g');
+  let radar = svg.append('g');
   if ('zoomed_quadrant' in config) {
     svg.attr('viewBox', viewbox(config.zoomed_quadrant));
   } else {
     radar.attr('transform', translate(config.width / 2, config.height / 2));
   }
 
-  var grid = radar.append('g');
+  let grid = radar.append('g');
 
   // draw grid lines
   grid
@@ -204,8 +204,8 @@ export function radar_visualization(config) {
 
   // background color. Usage `.attr("filter", "url(#solid)")`
   // SOURCE: https://stackoverflow.com/a/31013492/2609980
-  var defs = grid.append('defs');
-  var filter = defs
+  let defs = grid.append('defs');
+  let filter = defs
     .append('filter')
     .attr('x', 0)
     .attr('y', 0)
@@ -216,7 +216,7 @@ export function radar_visualization(config) {
   filter.append('feComposite').attr('in', 'SourceGraphic');
 
   // draw rings
-  for (var i = 0; i < rings.length; i++) {
+  for (let i = 0; i < rings.length; i++) {
     grid
       .append('circle')
       .attr('cx', 0)
@@ -240,9 +240,9 @@ export function radar_visualization(config) {
     }
   }
 
-  function legend_transform(quadrant, ring, index = null) {
-    var dx = ring < 2 ? 0 : 120;
-    var dy = index == null ? -16 : index * 12;
+  let legend_transform = (quadrant, ring, index = null) => {
+    let dx = ring < 2 ? 0 : 120;
+    let dy = index == null ? -16 : index * 12;
     if (ring % 2 === 1) {
       dy = dy + 36 + segmented[quadrant][ring - 1].length * 12;
     }
@@ -272,8 +272,8 @@ export function radar_visualization(config) {
       .style('font-size', '10px');
 
     // legend
-    var legend = radar.append('g');
-    for (var quadrant = 0; quadrant < 4; quadrant++) {
+    let legend = radar.append('g');
+    for (let quadrant = 0; quadrant < 4; quadrant++) {
       legend
         .append('text')
         .attr(
@@ -283,7 +283,7 @@ export function radar_visualization(config) {
         .text(config.quadrants[quadrant].name)
         .style('font-family', 'Arial, Helvetica')
         .style('font-size', '18px');
-      for (var ring = 0; ring < 4; ring++) {
+      for (let ring = 0; ring < 4; ring++) {
         legend
           .append('text')
           .attr('transform', legend_transform(quadrant, ring))
@@ -296,27 +296,27 @@ export function radar_visualization(config) {
           .data(segmented[quadrant][ring])
           .enter()
           .append('a')
-          .attr('href', function (d, i) {
+          .attr('href', (d, i) => {
             return d.link ? d.link : '#'; // stay on same page if no link was provided
           })
           .append('text')
-          .attr('transform', function (d, i) {
+          .attr('transform', (d, i) => {
             return legend_transform(quadrant, ring, i);
           })
           .attr('class', 'legend' + quadrant + ring)
-          .attr('id', function (d, i) {
+          .attr('id', (d, i) => {
             return 'legendItem' + d.id;
           })
-          .text(function (d, i) {
+          .text((d, i) => {
             return d.id + '. ' + d.label;
           })
           .style('font-family', 'Arial, Helvetica')
           .style('font-size', '11px')
-          .on('mouseover', function (d) {
+          .on('mouseover', (d) => {
             showBubble(d);
             highlightLegendItem(d);
           })
-          .on('mouseout', function (d) {
+          .on('mouseout', (d) => {
             hideBubble(d);
             unhighlightLegendItem(d);
           });
@@ -325,10 +325,10 @@ export function radar_visualization(config) {
   }
 
   // layer for entries
-  var rink = radar.append('g').attr('id', 'rink');
+  let rink = radar.append('g').attr('id', 'rink');
 
   // rollover bubble (on top of everything else)
-  var bubble = radar
+  let bubble = radar
     .append('g')
     .attr('id', 'bubble')
     .attr('x', 0)
@@ -344,10 +344,10 @@ export function radar_visualization(config) {
     .style('fill', '#fff');
   bubble.append('path').attr('d', 'M 0,0 10,0 5,8 z').style('fill', '#333');
 
-  function showBubble(d) {
+  let showBubble = (d) => {
     if (d.active || config.print_layout) {
-      var tooltip = d3.select('#bubble text').text(d.label);
-      var bbox = tooltip.node().getBBox();
+      let tooltip = d3.select('#bubble text').text(d.label);
+      let bbox = tooltip.node().getBBox();
       d3.select('#bubble')
         .attr('transform', translate(d.x - bbox.width / 2, d.y - 16))
         .style('opacity', 0.8);
@@ -363,40 +363,40 @@ export function radar_visualization(config) {
     }
   }
 
-  function hideBubble(d) {
-    var bubble = d3
+  let hideBubble = (d) => {
+    let bubble = d3
       .select('#bubble')
       .attr('transform', translate(0, 0))
       .style('opacity', 0);
   }
 
-  function highlightLegendItem(d) {
-    var legendItem = document.getElementById('legendItem' + d.id);
+  let highlightLegendItem = (d) => {
+    let legendItem = document.getElementById('legendItem' + d.id);
     legendItem.setAttribute('filter', 'url(#solid)');
     legendItem.setAttribute('fill', 'white');
   }
 
-  function unhighlightLegendItem(d) {
-    var legendItem = document.getElementById('legendItem' + d.id);
+  let unhighlightLegendItem = (d) => {
+    let legendItem = document.getElementById('legendItem' + d.id);
     legendItem.removeAttribute('filter');
     legendItem.removeAttribute('fill');
   }
 
   // draw blips on radar
-  var blips = rink
+  let blips = rink
     .selectAll('.blip')
     .data(config.entries)
     .enter()
     .append('g')
     .attr('class', 'blip')
-    .attr('transform', function (d, i) {
+    .attr('transform', (d, i) => {
       return legend_transform(d.quadrant, d.ring, i);
     })
-    .on('mouseover', function (d) {
+    .on('mouseover', (d) => {
       showBubble(d);
       highlightLegendItem(d);
     })
-    .on('mouseout', function (d) {
+    .on('mouseout', (d) => {
       hideBubble(d);
       unhighlightLegendItem(d);
     });
@@ -427,7 +427,7 @@ export function radar_visualization(config) {
 
     // blip text
     if (d.active || config.print_layout) {
-      var blip_text = config.print_layout ? d.id : d.label.match(/[a-z]/i);
+      let blip_text = config.print_layout ? d.id : d.label.match(/[a-z]/i);
       blip
         .append('text')
         .text(blip_text)
@@ -435,7 +435,7 @@ export function radar_visualization(config) {
         .attr('text-anchor', 'middle')
         .style('fill', '#fff')
         .style('font-family', 'Arial, Helvetica')
-        .style('font-size', function (d) {
+        .style('font-size', (d) => {
           return blip_text.length > 2 ? '8px' : '9px';
         })
         .style('pointer-events', 'none')
@@ -444,8 +444,8 @@ export function radar_visualization(config) {
   });
 
   // make sure that blips stay inside their segment
-  function ticked() {
-    blips.attr('transform', function (d) {
+  let ticked = () => {
+    blips.attr('transform', (d) => {
       return translate(d.segment.clipx(d), d.segment.clipy(d));
     });
   }

@@ -1,5 +1,5 @@
 <button type="button" routerLink="/login">Edit</button>
-<div *ngIf="isLoaded">
+<div *ngIf="radarEntries?.length">
   <lib-ng-tech-radar
     [techConfig]="radarConfig"
     [techEnteries]="radarEntries"

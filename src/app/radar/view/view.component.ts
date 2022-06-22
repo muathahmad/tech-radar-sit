@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RadarService } from '../radar.service';
+import {Component, OnInit} from '@angular/core';
+import {RadarService} from '../radar.service';
 import {IEntry, RadarMapDetails} from "../../../../projects/ng-tech-radar";
 
 @Component({
@@ -13,10 +13,10 @@ export class ViewComponent implements OnInit {
     width: 1500,
     height: 1000,
     quadrants: [
-      { name: 'Languages' },
-      { name: 'Infrastructure' },
-      { name: 'Datastores' },
-      { name: 'Data Management' },
+      {name: 'Languages'},
+      {name: 'Infrastructure'},
+      {name: 'Datastores'},
+      {name: 'Data Management'},
     ],
     colors: {
       background: '#fff',
@@ -24,23 +24,19 @@ export class ViewComponent implements OnInit {
       inactive: '#ddd',
     },
     rings: [
-      { name: 'ADOPT', color: '#93c47d' },
-      { name: 'TRIAL', color: '#93d2c2' },
-      { name: 'ASSESS', color: '#fbdb84' },
-      { name: 'HOLD', color: '#efafa9' },
+      {name: 'ADOPT', color: '#93c47d'},
+      {name: 'TRIAL', color: '#93d2c2'},
+      {name: 'ASSESS', color: '#fbdb84'},
+      {name: 'HOLD', color: '#efafa9'},
     ],
     print_layout: true,
   };
-  isLoaded: boolean = false;
   radarEntries: IEntry[] = [];
 
   constructor(private radarService: RadarService) {
     this.radarService.getRadarDate().subscribe(
-      ({ data }: any) => {
+      ({data}: any) => {
         this.radarEntries = data;
-        setTimeout(() => {
-          this.isLoaded = true;
-        });
       },
       (error) => {
         console.log('Error with getting data');
@@ -48,5 +44,6 @@ export class ViewComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 }
