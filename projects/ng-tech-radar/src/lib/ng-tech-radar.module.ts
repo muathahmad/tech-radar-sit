@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { NgTechRadarComponent } from './ng-tech-radar.component';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { NgTechRadarComponent } from "./ng-tech-radar.component";
 
 @NgModule({
   declarations: [NgTechRadarComponent],
   imports: [CommonModule],
-  exports: [NgTechRadarComponent],
+  exports: [NgTechRadarComponent]
 })
-export class NgTechRadarModule {}
+export class NgTechRadarModule {
+}

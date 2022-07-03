@@ -8,10 +8,12 @@ export interface RadarMapDetails {
   print_layout: boolean;
   entries?: Array<IEntry>;
 }
+
 export interface RingInterface {
   name: string;
   color: string;
 }
+
 export interface ColorsInterface {
   background: string;
   grid: string;

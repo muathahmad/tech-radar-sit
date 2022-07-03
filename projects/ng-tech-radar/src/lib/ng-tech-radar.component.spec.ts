@@ -1,16 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { NgTechRadarComponent } from './ng-tech-radar.component';
+import { NgTechRadarComponent } from "./ng-tech-radar.component";
 
-describe('NgTechRadarComponent', () => {
+describe("NgTechRadarComponent", () => {
   let component: NgTechRadarComponent;
   let fixture: ComponentFixture<NgTechRadarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NgTechRadarComponent ]
+      declarations: [NgTechRadarComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('NgTechRadarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

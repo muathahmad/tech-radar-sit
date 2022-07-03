@@ -346,7 +346,7 @@ export function radar_visualization(config) {
 
   let showBubble = (d) => {
     if (d.active || config.print_layout) {
-      let tooltip = d3.select('#bubble text').text(d.label);
+      let tooltip = d3.select('#bubble text').text(d.description);
       let bbox = tooltip.node().getBBox();
       d3.select('#bubble')
         .attr('transform', translate(d.x - bbox.width / 2, d.y - 16))

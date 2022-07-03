@@ -173,7 +173,7 @@ function radar_visualization(config) {
     for (var ring = 0; ring < 4; ring++) {
       var entries = segmented[quadrant][ring];
       entries.sort(function (a, b) {
-        return a.label.localeCompare(b.label);
+        return a.description.localeCompare(b.description);
       })
       for (var i = 0; i < entries.length; i++) {
         entries[i].id = "" + id++;
@@ -364,7 +364,7 @@ function radar_visualization(config) {
   function showBubble(d) {
     if (d.active || config.print_layout) {
       var tooltip = d3.select("#bubble text")
-        .text(d.label);
+        .text(d.description);
       var bbox = tooltip.node().getBBox();
       d3.select("#bubble")
         .attr("transform", translate(d.x - bbox.width / 2, d.y - 16))
