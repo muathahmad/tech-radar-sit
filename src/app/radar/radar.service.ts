@@ -8,7 +8,7 @@ import { importType } from '@angular/compiler/src/output/output_ast';
 @Injectable({ providedIn: 'root' })
 export class RadarService {
   constructor(private http: HttpClient) {}
-  getRadarDate(): Observable<IEntry[]> {
+  getRadarEntry(): Observable<IEntry[]> {
     return this.http.get<IEntry[]>(
       `${environment.baseURL + 'entry'}`
     );

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { RadarService } from "../radar.service";
 import { IEntry, RadarMapDetails } from "../../../../projects/ng-tech-radar";
-import { catchError } from "rxjs";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
@@ -34,26 +33,18 @@ export class ViewComponent implements OnInit {
   }
 
   private _displayRadarEntry() {
-    this.radarService.getRadarDate().pipe(catchError((error: any) => {
-      this._snackBar.open("Something went wrong with getting data from Entry API", "", {
-        panelClass: "bg-btnSecondaryHover",
-        duration: 5000
-      });
-      return error;
-    })).subscribe((data: any) => {
-      this.radarEntries = data.data;
+    this.radarService.getRadarEntry().subscribe({
+      next: (response: any) => {
+        this.radarEntries = response.data;
+      }
     });
   }
 
   private _displayRadarSetting() {
-    this.radarService.getRadarSettings().pipe(catchError((error: any) => {
-      this._snackBar.open("Something went wrong with getting data from Settings API", "", {
-        panelClass: "bg-btnSecondaryHover",
-        duration: 5000
-      });
-      return error;
-    })).subscribe((data: any) => {
-      this.radarConfig = Object.assign({}, this.radarConfig, data);
+    this.radarService.getRadarSettings().subscribe({
+      next: (response: any) => {
+        this.radarConfig = Object.assign({}, this.radarConfig, response);
+      }
     });
   }
 }

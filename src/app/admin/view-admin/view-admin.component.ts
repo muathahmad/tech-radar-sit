@@ -20,7 +20,7 @@ export class ViewAdminComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   constructor(private radarService: RadarService) {
-    this.radarService.getRadarDate().subscribe( data => {
+    this.radarService.getRadarEntry().subscribe(data => {
       this.ELEMENT_DATA = data;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
     });

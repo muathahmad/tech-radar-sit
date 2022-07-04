@@ -3,8 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input, OnChanges,
-  SimpleChanges,
+  Input,
   ViewChild
 } from "@angular/core";
 import { IEntry, RadarMapDetails } from "./helper/interface";
@@ -15,7 +14,7 @@ import { radarMaps } from "./helper/fallback";
   templateUrl: "ng-tech-radar.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NgTechRadarComponent implements AfterViewInit, OnChanges {
+export class NgTechRadarComponent implements AfterViewInit {
   @Input() techEntries: Array<IEntry> = [];
   @Input() techConfig: RadarMapDetails = radarMaps;
 
@@ -24,13 +23,6 @@ export class NgTechRadarComponent implements AfterViewInit, OnChanges {
   _config!: RadarMapDetails;
 
   constructor(private ref: ChangeDetectorRef) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.renderFunc();
-  }
-
-  ngOnInit() {
   }
 
   ngAfterViewInit(): void {
