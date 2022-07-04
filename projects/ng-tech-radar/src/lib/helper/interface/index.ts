@@ -2,11 +2,16 @@ export interface RadarMapDetails {
   title: string;
   width: number;
   height: number;
-  quadrants: Array<{ name: string }>;
+  quadrants?: Array<{ name: string }>;
   colors: ColorsInterface;
-  rings: Array<RingInterface>;
+  rings?: Array<RingInterface>;
   print_layout: boolean;
   entries?: Array<IEntry>;
+}
+
+export interface RadarSettingInterface{
+  quadrants: Array<{ name: string }>;
+  rings: Array<RingInterface>;
 }
 
 export interface RingInterface {
