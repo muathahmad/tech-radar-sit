@@ -7,7 +7,6 @@ import { RadarModule } from './radar/radar.module';
 import { NgTechRadarModule } from 'projects/ng-tech-radar/src/public-api';
 import { RadarService } from './radar/radar.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,7 +14,6 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     RadarModule,
-    AuthModule,
     NgTechRadarModule,
     RouterModule.forRoot([
       {
@@ -27,11 +25,6 @@ import { AuthModule } from './auth/auth.module';
         path: 'admin',
         loadChildren: () =>
           import('./admin/admin.module').then((m) => m.AdminModule),
-      },
-      {
-        path: 'login',
-        loadChildren: () =>
-          import('./auth/auth.module').then((m) => m.AuthModule),
       },
     ]),
     BrowserAnimationsModule,

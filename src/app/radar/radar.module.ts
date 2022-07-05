@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { NgTechRadarModule } from "projects/ng-tech-radar/src/public-api";
-
 import { RadarComponent } from "./radar.component";
 import { ViewComponent } from "./view/view.component";
 import { DetailsComponent } from "./details/details.component";

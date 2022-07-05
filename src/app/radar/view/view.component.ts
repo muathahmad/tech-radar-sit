@@ -32,6 +32,11 @@ export class ViewComponent implements OnInit {
   ngOnInit() {
   }
 
+  auth(){
+    const authURL: string = "https://tech-radar.auth.us-east-1.amazoncognito.com/login?client_id=48peu6k6174p3hr59b6fjn3ov&response_type=code&scope=aws.cognito.signin.user.admin+email+http%3A%2F%2Flocalhost%3A8080%2Ftype+openid+profile&redirect_uri=https%3A%2F%2Flocalhost%3A8080%2Fcallback";
+      window.open(authURL);
+    }
+
   private _displayRadarEntry() {
     this.radarService.getRadarEntry().subscribe({
       next: (response: any) => {

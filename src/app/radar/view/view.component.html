@@ -1,4 +1,4 @@
-<button type="button" routerLink="/login">Edit</button>
+<button type="button" (click)="auth()">Login</button>
 <div *ngIf="radarEntries?.length ">
   <lib-ng-tech-radar
     [techConfig]="radarConfig"

@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { IEntry, RadarSettingInterface } from "../../../projects/ng-tech-radar/src/lib/helper/interface";
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { importType } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({ providedIn: 'root' })
 export class RadarService {
