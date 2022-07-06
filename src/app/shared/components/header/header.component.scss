@@ -1,0 +1,56 @@
+@import "../../../../styles/base/paths";
+
+.header {
+  overflow: hidden;
+  background-color: #121B23;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header a {
+  float: left;
+  color: #8BCDEA;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+.logo {
+  width: 160px;
+  height: 60px;
+  margin-left: 30px;
+  background: url("#{$path-to-images}/sitech_logo.png") no-repeat;
+}
+
+.header a:hover {
+  color: #F4FF66;
+}
+
+.header a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+.header-right {
+  float: right;
+}
+
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .header-right {
+    float: none;
+  }
+}

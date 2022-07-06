@@ -1,0 +1,15 @@
+<div class="header">
+  <div>
+    <div class="logo"></div>
+  </div>
+  <div class="header-right">
+    <div *ngIf="cookieService.isLoggedInUser; else notLoggedInUser ">
+      <a>Edit</a>
+      <a (click)="authService.logout()">Logout</a>
+
+    </div>
+    <ng-template #notLoggedInUser>
+      <a (click)="authService.openAuthWindow()" >Login</a>
+    </ng-template>
+  </div>
+</div>
