@@ -49,10 +49,10 @@ function radar_visualization(config) {
   ];
 
   const rings = [
-    {radius: 130},
-    {radius: 220},
-    {radius: 310},
-    {radius: 400}
+    {radius: 130, fillColor: '#e0e0e0'},
+    {radius: 220, fillColor: '#e2eae4'},
+    {radius: 310, fillColor: '#eeece7'},
+    {radius: 400, fillColor: '#f1f1f1'}
   ];
 
   const title_offset =
@@ -196,29 +196,17 @@ function radar_visualization(config) {
 
   var svg = d3.select("svg#" + config.svg_id)
     .style("background-color", config.colors.background)
-    .attr("width", config.width)
-    .attr("height", config.height);
+    .attr("width", config.width + '%')
+    .attr("height", '100vh');
 
   var radar = svg.append("g");
   if ("zoomed_quadrant" in config) {
     svg.attr("viewBox", viewbox(config.zoomed_quadrant));
   } else {
-    radar.attr("transform", translate(config.width / 2, config.height / 2));
+    radar.attr("transform", translate(window.innerWidth / 2, window.innerHeight / 2));
   }
 
   var grid = radar.append("g");
-
-  // draw grid lines
-  grid.append("line")
-    .attr("x1", 0).attr("y1", -400)
-    .attr("x2", 0).attr("y2", 400)
-    .style("stroke", config.colors.grid)
-    .style("stroke-width", 1);
-  grid.append("line")
-    .attr("x1", -400).attr("y1", 0)
-    .attr("x2", 400).attr("y2", 0)
-    .style("stroke", config.colors.grid)
-    .style("stroke-width", 1);
 
   // background color. Usage `.attr("filter", "url(#solid)")`
   // SOURCE: https://stackoverflow.com/a/31013492/2609980
@@ -235,12 +223,12 @@ function radar_visualization(config) {
     .attr("in", "SourceGraphic");
 
   // draw rings
-  for (var i = 0; i < rings.length; i++) {
+  for (var i = rings.length - 1; i >= 0; i--) {
     grid.append("circle")
       .attr("cx", 0)
       .attr("cy", 0)
       .attr("r", rings[i].radius)
-      .style("fill", "none")
+      .style("fill", rings[i].fillColor)
       .style("stroke", config.colors.grid)
       .style("stroke-width", 1);
     if (config.print_layout) {
@@ -248,7 +236,7 @@ function radar_visualization(config) {
         .text(config.rings[i].name)
         .attr("y", -rings[i].radius + 62)
         .attr("text-anchor", "middle")
-        .style("fill", "#e5e5e5")
+        .style("fill", "white")
         .style("font-family", "Arial, Helvetica")
         .style("font-size", "42px")
         .style("font-weight", "bold")
@@ -257,8 +245,13 @@ function radar_visualization(config) {
     }
   }
 
-  function legend_transform(quadrant, ring, index = null) {
-    var dx = ring < 2 ? 0 : 120;
+  function legend_transform(quadrant, ring, index = null, type = null) {
+    var dx;
+    if (type && ring >= 2) {
+      dx = 185;
+    } else {
+      dx = ring < 2 ? 0 : 120;
+    }
     var dy = (index == null ? -16 : index * 12);
     if (ring % 2 === 1) {
       dy = dy + 36 + segmented[quadrant][ring - 1].length * 12;
@@ -280,12 +273,12 @@ function radar_visualization(config) {
       .style("font-size", "34px");
 
     // footer
-    radar.append("text")
-      .attr("transform", translate(footer_offset.x, footer_offset.y))
-      .text("▲ moved up     ▼ moved down")
-      .attr("xml:space", "preserve")
-      .style("font-family", "Arial, Helvetica")
-      .style("font-size", "10px");
+    // radar.append("text")
+    //   .attr("transform", translate(footer_offset.x, footer_offset.y))
+    //   .text("▲ moved up     ▼ moved down")
+    //   .attr("xml:space", "preserve")
+    //   .style("font-family", "Arial, Helvetica")
+    //   .style("font-size", "10px");
 
     // legend
     var legend = radar.append("g");
@@ -297,13 +290,13 @@ function radar_visualization(config) {
         ))
         .text(config.quadrants[quadrant].name)
         .style("font-family", "Arial, Helvetica")
-        .style("font-size", "18px");
+        .style("font-size", "22px");
       for (var ring = 0; ring < 4; ring++) {
         legend.append("text")
-          .attr("transform", legend_transform(quadrant, ring))
+          .attr("transform", legend_transform(quadrant, ring, null, "title"))
           .text(config.rings[ring].name)
           .style("font-family", "Arial, Helvetica")
-          .style("font-size", "12px")
+          .style("font-size", "16px")
           .style("font-weight", "bold");
         legend.selectAll(".legend" + quadrant + ring)
           .data(segmented[quadrant][ring])
@@ -314,7 +307,7 @@ function radar_visualization(config) {
           })
           .append("text")
           .attr("transform", function (d, i) {
-            return legend_transform(quadrant, ring, i);
+            return legend_transform(quadrant, ring, i, "elements");
           })
           .attr("class", "legend" + quadrant + ring)
           .attr("id", function (d, i) {
@@ -324,7 +317,7 @@ function radar_visualization(config) {
             return d.id + ". " + d.label;
           })
           .style("font-family", "Arial, Helvetica")
-          .style("font-size", "11px")
+          .style("font-size", "13px")
           .on("mouseover", function (d) {
             showBubble(d);
             highlightLegendItem(d);
@@ -336,6 +329,18 @@ function radar_visualization(config) {
       }
     }
   }
+
+  // draw grid lines
+  grid.append("line")
+    .attr("x1", 0).attr("y1", -400)
+    .attr("x2", 0).attr("y2", 400)
+    .style("stroke", config.colors.grid)
+    .style("stroke-width", 1);
+  grid.append("line")
+    .attr("x1", -400).attr("y1", 0)
+    .attr("x2", 400).attr("y2", 0)
+    .style("stroke", config.colors.grid)
+    .style("stroke-width", 1);
 
   // layer for entries
   var rink = radar.append("g")
@@ -355,7 +360,7 @@ function radar_visualization(config) {
     .style("fill", "#333");
   bubble.append("text")
     .style("font-family", "sans-serif")
-    .style("font-size", "10px")
+    .style("font-size", "13px")
     .style("fill", "#fff");
   bubble.append("path")
     .attr("d", "M 0,0 10,0 5,8 z")
@@ -436,7 +441,7 @@ function radar_visualization(config) {
         .style("fill", d.color);
     } else {
       blip.append("circle")
-        .attr("r", 9)
+        .attr("r", 12)
         .attr("fill", d.color);
     }
 
@@ -449,9 +454,7 @@ function radar_visualization(config) {
         .attr("text-anchor", "middle")
         .style("fill", "#fff")
         .style("font-family", "Arial, Helvetica")
-        .style("font-size", function (d) {
-          return blip_text.length > 2 ? "8px" : "9px";
-        })
+        .style("font-size", "11px")
         .style("pointer-events", "none")
         .style("user-select", "none");
     }

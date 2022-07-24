@@ -14,8 +14,8 @@ export class ViewComponent implements OnInit {
 
   radarConfig: RadarMapDetails = {
     title: "Sitech Radar",
-    width: 1500,
-    height: 1000,
+    width: 100,
+    height: 100,
     colors: {
       background: "#fff",
       grid: "#bbb",

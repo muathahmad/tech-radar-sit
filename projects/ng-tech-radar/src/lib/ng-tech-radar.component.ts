@@ -34,8 +34,6 @@ export class NgTechRadarComponent implements AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit(): void {
-    this.renderFunc();
-
   }
 
   renderFunc() {
