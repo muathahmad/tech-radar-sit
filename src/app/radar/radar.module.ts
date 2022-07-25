@@ -1,15 +1,12 @@
 import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { NgTechRadarModule } from "projects/ng-tech-radar/src/public-api";
-
-import { RadarComponent } from "./radar.component";
 import { ViewComponent } from "./view/view.component";
 import { DetailsComponent } from "./details/details.component";
 import { HttpClientModule } from "@angular/common/http";
-import { RadarService } from "./radar.service";
+import { RadarDataService } from "../shared/services/radar.data.service";
 import { AdminModule } from "../admin/admin.module";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { RadarRoutingModule } from "./radar-routing.module";
 
 @NgModule({
   imports: [
@@ -17,16 +14,13 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     NgTechRadarModule,
     AdminModule,
     HttpClientModule,
-    MatSnackBarModule,
-    RouterModule.forChild([
-      { path: "", component: ViewComponent },
-      { path: "details", component: DetailsComponent }
-    ])
+    RadarRoutingModule
   ],
-  declarations: [RadarComponent, ViewComponent, DetailsComponent],
+  declarations: [ViewComponent, DetailsComponent],
   exports: [ViewComponent],
-  providers: [RadarService]
+  providers: [RadarDataService]
 })
+
 export class RadarModule {
   constructor() {
   }

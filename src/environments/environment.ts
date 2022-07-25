@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseURL: 'https://xfonsv62j8.execute-api.us-east-1.amazonaws.com/Prod/radar/'
+  baseURL: 'https://xfonsv62j8.execute-api.us-east-1.amazonaws.com/'
 };
 
 /*
